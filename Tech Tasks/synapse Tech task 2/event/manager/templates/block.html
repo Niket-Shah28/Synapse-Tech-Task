@@ -1,0 +1,50 @@
+{% extends 'event.html' %}
+{% block content %}
+<h2 style="text-align:left;"><u>Add Event Information</u></h2>
+<form action="" method="POST">
+    {% csrf_token %}
+    {{form.non_field_errors}}
+    {% for field in form %}
+        <p>
+            {{field.label_tag}}{{field}}
+        </p>
+    {% endfor %}
+    <button type="submit" value="submit">ADD</button>
+</form>
+<h3 style="text-align:left;"><u>Event Information</u></h3>
+    {% if eve %}
+        <table class="table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Event Name</th>
+                    <th scope="col">Start Date</th>
+                    <th scope="col">End Date</th>
+                    <th scope="col">No. of People</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ev in eve %}
+                    <tr>
+                        <th scope="row">{{ev.id}}</th>
+                        <td>{{ev.Event_Name}}</td>
+                        <td>{{ev.Start_Date}}</td>
+                        <td>{{ev.End_Date}}</td>
+                        <td>{{ev.No_of_People}}</td>
+                        <td>{{ev.Situation}}</td>
+                        <td><form action="{% url 'updatedata' ev.id %}" method="POST" class="d-inline">
+                            {% csrf_token %}
+                            <button value="submit" value="submit">EDIT</button>
+                        </form></td>
+                        <td><form action="{% url 'deletedata' ev.id %}" method="POST" class="d-inline">
+                            {% csrf_token %}
+                            <button value="submit" value="submit">DELETE</button>
+                        </form></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock content %}
